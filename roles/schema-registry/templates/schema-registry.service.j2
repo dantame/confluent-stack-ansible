@@ -1,10 +1,9 @@
 [Unit]
-  Description=A Confluent Schema Registry instance
-  After=network.target
+Description=A Confluent Schema Registry instance
+After=network.target
 
 [Service]
-  Type=forking
-  ExecStart=schema-registry-start -daemon /etc/schema-registry/schema-registry.properties
-  ExecReload=schema-registry-stop; schema-registry-start -daemon /etc/schema-registry/schema-registry.properties
-  ExecStop=schema-registry-stop
+Type=forking
+ExecStart=/usr/bin/schema-registry-start -daemon /etc/schema-registry/schema-registry.properties
+ExecStop=/usr/bin/schema-registry-stop
 

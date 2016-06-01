@@ -1,4 +1,4 @@
 - name: Start Schema Registry
   service: name=schema-registry state=started enabled=yes
 - name: Restart Schema Registry
-  service: name=schema-registry state=reloaded
+  service: name=schema-registry state=restarted

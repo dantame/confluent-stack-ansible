@@ -1,4 +1,4 @@
 - name: Start Kafka
   service: name=kafka state=started enabled=yes
 - name: Restart Kafka
-  service: name=kafka state=reloaded
+  service: name=kafka state=restarted
