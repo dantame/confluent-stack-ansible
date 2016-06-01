@@ -9,4 +9,4 @@
   apt: update_cache=yes
 
 - name: Install Java Runtime Environment
-  apt: name=default-jre state=present
+  apt: name=openjdk-8-jre state=present

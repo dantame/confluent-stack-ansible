@@ -1,0 +1,15 @@
+---
+- name: Install kafka (which includes zookeeper) from confluent repository
+  apt: name=confluent-kafka-2.11 state=present
+- name: Install Zookeeper Service
+  template:
+    src=zookeeper.service.j2
+    dest=/etc/systemd/system/zookeeper.service
+  notify:
+    - Start Zookeeper
+- name: Copy Zookeeper config
+  template:
+    src=zookeeper.properties.j2
+    dest=/etc/kafka/zookeeper.properties
+  notify:
+    - Restart Zookeeper

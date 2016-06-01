@@ -1,0 +1,10 @@
+[Unit]
+  Description=An Apache Zookeeper instance
+  After=network.target
+
+[Service]
+  Type=forking
+  ExecStart=zookeeper-server-start -daemon /etc/kafka/zookeeper.properties
+  ExecReload=zookeeper-server-stop; zookeeper-server-start -daemon /etc/kafka/zookeeper.properties
+  ExecStop=zookeeper-server-stop
+

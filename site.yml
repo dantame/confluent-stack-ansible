@@ -1,0 +1,4 @@
+---
+- include: zookeepers.yml
+- include: brokers.yml
+- include: schema-registries.yml

@@ -1,3 +1,0 @@
----
-- name: Install kafka (which includes zookeeper) from confluent repository
-  apt: name=confluent-kafka-2.11 state=present

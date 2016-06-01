@@ -1,0 +1,10 @@
+[Unit]
+  Description=An Apache Kafka broker
+  After=network.target
+
+[Service]
+  Type=forking
+  ExecStart=kafka-server-start -daemon /etc/kafka/server.properties
+  ExecReload=kafka-server-stop; kafka-server-start -daemon /etc/kafka/server.properties
+  ExecStop=kafka-server-stop
+

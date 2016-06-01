@@ -1,0 +1,15 @@
+---
+- name: Install kafka from confluent repository
+  apt: name=confluent-kafka-2.11 state=present
+- name: Install Kafka Service
+  template:
+    src=kafka.service.j2
+    dest=/etc/systemd/system/kafka.service
+  notify:
+    - Start Kafka
+- name: Copy Kafka config
+  template:
+    src=server.properties.j2
+    dest=/etc/kafka/server.properties
+  notify:
+    - Restart Kafka
