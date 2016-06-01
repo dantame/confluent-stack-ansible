@@ -1,3 +1,15 @@
 ---
 - name: Install confluent schema registry from confluent repository
   apt: name=confluent-schema-registry state=present
+- name: Install Schema Registry Service
+  template:
+    src=schema-registry.service.j2
+    dest=/etc/systemd/system/schema-registry.service
+  notify:
+    - Start Schema Registry
+- name: Copy Schema Registry config
+  template:
+    src=schema-registry.properties.j2
+    dest=/etc/schema-registry/schema-registry.properties
+  notify:
+    - Restart Schema Registry
