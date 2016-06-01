@@ -3,21 +3,23 @@
 
 VAGRANTFILE_API_VERSION = 2
 
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "ubuntu/xenial64"
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |c|
+  c.hostmanager.enabled = true
+  c.hostmanager.manage_guest = true
+  c.hostmanager.aliases = %w(ubuntu-xenial)
 
-  config.vm.hostname = "localhost"
+  c.vm.box = "ubuntu/xenial64"
 
-  config.vm.synced_folder ".", "/vagrant", :disabled => true
+  c.vm.synced_folder ".", "/vagrant", :disabled => true
 
-  config.vm.network "forwarded_port", guest: 9092, host: 9092
-  config.vm.network "forwarded_port", guest: 2181, host: 2181
+  c.vm.network "forwarded_port", guest: 9092, host: 9092
+  c.vm.network "forwarded_port", guest: 2181, host: 2181
 
-  config.vm.provision :ansible do |ansible|
+  c.vm.provision :ansible do |ansible|
     ansible.playbook = "site.yml"
   end
 
-  config.vm.provider "virtualbox" do |v|
+  c.vm.provider "virtualbox" do |v|
     v.memory = 8096
     v.cpus = 2
   end
