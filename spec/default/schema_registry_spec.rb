@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe 'schema registry' do
+  include_examples 'users'
+
   describe service('schema-registry'), :if => os[:family] == 'ubuntu' do
     it { should be_enabled }
     it { should be_running }

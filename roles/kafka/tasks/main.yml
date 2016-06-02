@@ -1,15 +1,28 @@
 ---
 - name: Install kafka from confluent repository
   apt: name=confluent-kafka-2.11 state=present
+- name: Ensure log directory exists with correct permissions
+  file:
+    state: directory
+    path: /var/log/kafka
+    owner: sky-analytics
+    group: sky-analytics
+    mode: 0755
 - name: Install Kafka Service
   template:
-    src=kafka.service.j2
-    dest=/etc/systemd/system/kafka.service
+    src: kafka.service.j2
+    dest: /etc/systemd/system/kafka.service
+    owner: root
+    group: root
+    mode: 0644
   notify:
     - Start Kafka
 - name: Copy Kafka config
   template:
-    src=server.properties.j2
-    dest=/etc/kafka/server.properties
+    src: server.properties.j2
+    dest: /etc/kafka/server.properties
+    owner: sky-analytics
+    group: sky-analytics
+    mode: 0755
   notify:
     - Restart Kafka

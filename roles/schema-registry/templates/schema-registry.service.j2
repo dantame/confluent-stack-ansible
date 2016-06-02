@@ -3,7 +3,13 @@ Description=A Confluent Schema Registry instance
 After=network.target
 
 [Service]
+User=sky-analytics
+WorkingDirectory=/home/sky-analytics
 Type=forking
 ExecStart=/usr/bin/schema-registry-start -daemon /etc/schema-registry/schema-registry.properties
 ExecStop=/usr/bin/schema-registry-stop
 
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=%n

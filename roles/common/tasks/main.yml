@@ -1,4 +1,14 @@
 ---
+- name: Create sky-analytics user group
+  group:
+    name: sky-analytics
+    state: present
+    system: yes
+- name: Create sky-analytics user
+  user:
+    name: sky-analytics
+    group: sky-analytics
+    system: yes
 - name: Add confluent apt key
   apt_key: url=http://packages.confluent.io/deb/3.0/archive.key state=present
 

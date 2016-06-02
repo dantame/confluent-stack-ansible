@@ -3,7 +3,13 @@ Description=An Apache Kafka broker
 After=network.target
 
 [Service]
+User=sky-analytics
+WorkingDirectory=/home/sky-analytics
 Type=forking
 ExecStart=/usr/bin/kafka-server-start -daemon /etc/kafka/server.properties
 ExecStop=/usr/bin/kafka-server-stop
 
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=%n

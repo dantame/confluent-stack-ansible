@@ -3,7 +3,13 @@ Description=An Apache Zookeeper instance
 After=network.target
 
 [Service]
+User=sky-analytics
+WorkingDirectory=/home/sky-analytics
 Type=forking
 ExecStart=/usr/bin/zookeeper-server-start -daemon /etc/kafka/zookeeper.properties
 ExecStop=/usr/bin/zookeeper-server-stop
 
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=%n

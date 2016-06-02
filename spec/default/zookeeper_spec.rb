@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe 'zookeeper' do
+  include_examples 'users'
+
   describe package('confluent-kafka-2.11'), :if => os[:family] == 'ubuntu' do
     it { should be_installed }
   end
