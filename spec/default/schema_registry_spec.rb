@@ -1,12 +1,8 @@
 require 'spec_helper'
 
 describe 'schema registry' do
-  include_examples 'users'
-
-  describe service('schema-registry'), :if => os[:family] == 'ubuntu' do
-    it { should be_enabled }
-    it { should be_running }
-  end
+  include_examples 'users', 'sky-analytics'
+  include_examples 'service', 'schema-registry'
 
   describe port(8081) do
     it { should be_listening }

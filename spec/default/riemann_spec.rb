@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe 'riemann' do
+  include_examples 'service', 'riemann'
+
   describe user('riemann') do
     it { should exist }
     it { should belong_to_group 'riemann' }
@@ -8,11 +10,6 @@ describe 'riemann' do
 
   describe package('riemann'), :if => os[:family] == 'ubuntu' do
     it { should be_installed }
-  end
-
-  describe service('riemann'), :if => os[:family] == 'ubuntu' do
-    it { should be_enabled }
-    it { should be_running }
   end
 
   describe port(5555), :if => os[:family] == 'ubuntu' do
