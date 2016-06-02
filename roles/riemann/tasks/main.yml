@@ -1,5 +1,5 @@
 ---
-- name: Download riemann
+- name: Download Riemann
   get_url:
     url: https://aphyr.com/riemann/riemann_0.2.11_all.deb
     dest: /opt/riemann.deb
@@ -16,4 +16,5 @@
     group: riemann
     mode: 0755
   notify:
-    - Reload Riemann
+    - Start Riemann
+    - Restart Riemann
