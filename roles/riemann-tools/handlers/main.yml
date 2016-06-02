@@ -1,0 +1,10 @@
+- name: Start riemann-health
+  service: name=riemann-health state=started enabled=yes
+- name: Start riemann-diskstats
+  service: name=riemann-diskstats state=started enabled=yes
+- name: Start riemann-net
+  service: name=riemann-net state=started enabled=yes
+- name: Start riemann-proc
+  service: name=riemann-proc state=started enabled=yes
+- name: Start riemann-fd
+  service: name=riemann-fd state=started enabled=yes

@@ -1,0 +1,8 @@
+[Unit]
+Description=Send Process statistics to Riemann
+After=network.target
+
+[Service]
+User=monitoring
+ExecStart=/home/monitoring/.gem/ruby/{{ ruby_version }}/bin/riemann-proc --host 127.0.0.1
+Restart=always

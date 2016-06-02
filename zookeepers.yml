@@ -9,4 +9,5 @@
       setup:
   roles:
     - common
+    - riemann-tools
     - zookeeper

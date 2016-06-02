@@ -9,3 +9,4 @@
       setup:
   roles:
     - riemann
+    - riemann-tools

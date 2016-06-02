@@ -1,0 +1,87 @@
+---
+- name: Create monitoring user group
+  group:
+    name: monitoring
+    state: present
+    system: yes
+- name: Create monitoring user
+  user:
+    name: monitoring
+    group: monitoring
+    system: yes
+- name: Install packages required to build ruby.
+  apt: "name={{ item }} state=present"
+  with_items:
+    - zlib1g-dev
+    - libssl-dev
+    - libyaml-dev
+    - libreadline6-dev
+    - zlib1g-dev
+    - libncurses5-dev
+    - libffi-dev
+    - libgdbm3
+    - libgdbm-dev
+    - build-essential
+
+- name: Download ruby.
+  get_url:
+    url: "{{ ruby_download_url }}"
+    dest: "{{ workspace }}/ruby-{{ ruby_version }}.tar.gz"
+
+- name: Extract ruby.
+  unarchive:
+    src: "{{ workspace }}/ruby-{{ ruby_version }}.tar.gz"
+    dest: "{{ workspace }}/"
+    copy: no
+
+- name: Build ruby.
+  become: true
+  command: >
+    {{ item }}
+    chdir={{ workspace }}/ruby-{{ ruby_version }}
+    creates=/usr/local/bin/ruby
+  with_items:
+    - ./configure --enable-shared
+    - make
+    - make install
+
+- name: Add ruby symlinks.
+  file:
+    src: "/usr/local/bin/{{ item }}"
+    dest: "/usr/bin/{{ item }}"
+    state: link
+    force: yes
+  with_items:
+    - erb
+    - gem
+    - irb
+    - rake
+    - rdoc
+    - ruby
+
+- name: Install gems
+  gem: "name={{ item }} state=present"
+  become: true
+  become_user: "{{ ruby_install_gems_user }}"
+  with_items: "{{ ruby_install_gems }}"
+
+- name: Copy services
+  template:
+    src: "{{ item }}.j2"
+    dest: /etc/systemd/system/{{ item }}
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - riemann-health.service
+    - riemann-diskstats.service
+    - riemann-net.service
+    - riemann-proc.service
+    - riemann-fd.service
+  notify:
+    - Start riemann-health
+    - Start riemann-diskstats
+    - Start riemann-net
+    - Start riemann-proc
+    - Start riemann-fd
+

@@ -1,4 +1,0 @@
-- name: Start Riemann
-  service: name=riemann state=started enabled=yes
-- name: Reload Riemann
-  service: name=riemann state=reloaded
