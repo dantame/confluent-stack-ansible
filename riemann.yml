@@ -8,5 +8,4 @@
     - name: Gather facts
       setup:
   roles:
-    - common
-    - zookeeper
+    - riemann

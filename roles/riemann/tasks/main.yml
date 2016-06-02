@@ -1,0 +1,19 @@
+---
+- name: Download riemann
+  get_url:
+    url: https://aphyr.com/riemann/riemann_0.2.11_all.deb
+    dest: /opt/riemann.deb
+    mode: 0440
+- name: Install Riemann
+  apt: deb="/opt/riemann.deb"
+  notify:
+    - Start Riemann
+- name: Copy Riemann config
+  template:
+    src: riemann.config.j2
+    dest: /etc/riemann/riemann.config
+    owner: riemann
+    group: riemann
+    mode: 0755
+  notify:
+    - Reload Riemann

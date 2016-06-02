@@ -14,6 +14,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |c|
 
   c.vm.network "forwarded_port", guest: 9092, host: 9092
   c.vm.network "forwarded_port", guest: 2181, host: 2181
+  c.vm.network "forwarded_port", guest: 8081, host: 8081
+  c.vm.network "forwarded_port", guest: 5555, host: 5555
+  c.vm.network "forwarded_port", guest: 5556, host: 5556
 
   c.vm.provision :ansible do |ansible|
     ansible.playbook = "site.yml"
