@@ -11,4 +11,8 @@ describe 'kafka' do
   describe port(9092) do
     it { should be_listening }
   end
+
+  describe port(9999) do
+    it { should be_listening }
+  end
 end
