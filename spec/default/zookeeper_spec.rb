@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'zookeeper' do
-  include_examples 'users', 'sky-analytics'
+  include_examples 'users', 'data'
   include_examples 'service', 'zookeeper'
 
   describe package('confluent-kafka-2.11'), :if => os[:family] == 'ubuntu' do

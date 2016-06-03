@@ -8,6 +8,7 @@
     - name: Gather facts
       setup:
   roles:
-    - common
+    - confluent-repo
+    - java-8-jdk
     - riemann-tools
     - schema-registry

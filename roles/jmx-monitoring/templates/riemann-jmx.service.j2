@@ -1,0 +1,8 @@
+[Unit]
+Description=Send JMX statistics to Riemann
+After=network.target
+
+[Service]
+User=data
+ExecStart=/usr/bin/java -jar /opt/riemann-jmx.jar /etc/riemann-jmx/riemann-jmx.yaml
+Restart=always

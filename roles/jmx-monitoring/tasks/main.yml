@@ -1,0 +1,33 @@
+---
+- name: Copy riemann-jmx jar file to /opt
+  copy:
+    src: riemann-jmx-clj-0.1.0-SNAPSHOT-standalone.jar
+    dest: /opt/riemann-jmx.jar
+    owner: data
+    group: data
+    mode: 0644
+- name: Create config directory
+  file:
+    path: /etc/riemann-jmx
+    state: directory
+    owner: data
+    group: data
+    mode: 0755
+- name: Copy riemann-jmx config
+  template:
+    src: riemann-jmx.yaml.j2
+    dest: /etc/riemann-jmx/riemann-jmx.yaml
+    owner: data
+    group: data
+    mode: 0755
+  notify:
+    - Restart riemann-jmx
+- name: Install riemann-jmx service
+  template:
+    src: riemann-jmx.service.j2
+    dest: /etc/systemd/system/riemann-jmx.service
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Start riemann-jmx

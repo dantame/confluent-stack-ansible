@@ -14,8 +14,8 @@
   template:
     src: schema-registry.properties.j2
     dest: /etc/schema-registry/schema-registry.properties
-    owner: sky-analytics
-    group: sky-analytics
+    owner: data
+    group: data
     mode: 0755
   notify:
     - Restart Schema Registry

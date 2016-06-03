@@ -5,8 +5,8 @@
   file:
     state: directory
     path: /var/log/kafka
-    owner: sky-analytics
-    group: sky-analytics
+    owner: data
+    group: data
     mode: 0755
 - name: Install Kafka Service
   template:
@@ -21,8 +21,8 @@
   template:
     src: server.properties.j2
     dest: /etc/kafka/server.properties
-    owner: sky-analytics
-    group: sky-analytics
+    owner: data
+    group: data
     mode: 0755
   notify:
     - Restart Kafka

@@ -1,0 +1,3 @@
+---
+- name: Install Java Runtime Environment JDK
+  apt: name=openjdk-8-jdk state=present

@@ -1,0 +1,19 @@
+---
+- name: Create data user group
+  group:
+    name: data
+    state: present
+    system: yes
+- name: Create data user
+  user:
+    name: data
+    group: data
+    system: yes
+- name: Add confluent apt key
+  apt_key: url=http://packages.confluent.io/deb/3.0/archive.key state=present
+
+- name: Add confluent repository
+  apt_repository: repo='deb [arch=amd64] http://packages.confluent.io/deb/3.0 stable main' state=present
+
+- name: Update apt cache
+  apt: update_cache=yes

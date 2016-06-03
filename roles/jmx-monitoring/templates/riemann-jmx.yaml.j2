@@ -1,0 +1,18 @@
+riemann :
+    host     : localhost
+    port     : 5555
+    interval : 5
+
+jmx :
+    host : localhost
+    event_host : localhost-9999
+    port : 9999
+
+queries :
+-   service     : "kafka.server.bytesInPerSec"
+    obj         : "kafka.server:name=BytesInPerSec,type=BrokerTopicMetrics"
+    attr        :
+    -   OneMinuteRate
+    -   FiveMinuteRate
+    -   FifteenMinuteRate
+    -   MeanRate

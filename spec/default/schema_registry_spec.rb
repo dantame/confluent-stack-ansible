@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'schema registry' do
-  include_examples 'users', 'sky-analytics'
+  include_examples 'users', 'data'
   include_examples 'service', 'schema-registry'
 
   describe port(8081) do

@@ -1,0 +1,4 @@
+- name: Start riemann-jmx
+  service: name=riemann-jmx state=started enabled=yes
+- name: Restart riemann-jmx
+  service: name=riemann-jmx state=restarted
