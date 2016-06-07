@@ -10,8 +10,14 @@
   (udp-server {:host host})
   (ws-server  {:host host}))
 
-; Expire old events from the index every 5 seconds.
-(periodically-expire 5)
+; Expire old events from the index every 60 seconds.
+(periodically-expire 60)
+
+(def credentials {:account {{ ansible_env.SLACK_ACCOUNT|default('""') }}, :token {{ ansible_env.SLACK_TOKEN|default('""') }}})
+
+(def slacker (slack credentials {:username {{ ansible_env.SLACK_USERNAME|default('"Riemann"') }}
+                                 :channel {{ ansible_env.SLACK_CHANNEL|default('"#test"') }}
+                                 :icon ":smile"}))
 
 (let [index (index)]
   ; Inbound events will be passed to these streams:
@@ -19,6 +25,30 @@
     (default :ttl 60
       ; Index all events immediately.
       index
+
+      (where (and (service "activeControllerCount.Value")
+                  (not (expired? event))
+                  (== metric 1))
+        (with :state "ok" index)
+             (else (with :state "critical" index)))
+
+
+      (where (and (service "underReplicatedPartitions.Value")
+                  (not (expired? event))
+                  (<= metric 0))
+        (with :state "ok" index)
+             (else (with :state "critical" index)))
+
+
+      (where (and (service "logFlushRateAndTimeMs.OneMinuteRate")
+                  (not (expired? event))
+                  (<= metric 2000))
+        (with :state "ok" index)
+             (else (with :state "critical" index)))
+
+      (changed-state {:init "ok"}
+        (stable 30 :state
+            slacker))
 
       ; Log expired events.
       (expired
