@@ -5,14 +5,71 @@ riemann :
 
 jmx :
     host : localhost
-    event_host : localhost-9999
+    event_host : kafka-broker
     port : 9999
 
 queries :
--   service     : "kafka.server.bytesInPerSec"
+-   service     : "bytesInPerSec"
     obj         : "kafka.server:name=BytesInPerSec,type=BrokerTopicMetrics"
     attr        :
     -   OneMinuteRate
-    -   FiveMinuteRate
-    -   FifteenMinuteRate
     -   MeanRate
+
+-   service     : "bytesOutPerSec"
+    obj         : "kafka.server:name=BytesOutPerSec,type=BrokerTopicMetrics"
+    attr        :
+    -   OneMinuteRate
+    -   MeanRate
+
+-   service     : "bytesRejectedPerSec"
+    obj         : "kafka.server:name=BytesRejectedPerSec,type=BrokerTopicMetrics"
+    attr        :
+    -   OneMinuteRate
+    -   MeanRate
+
+
+-   service     : "messagesInPerSec"
+    obj         : "kafka.server:name=MessagesInPerSec,type=BrokerTopicMetrics"
+    attr        :
+    -   OneMinuteRate
+    -   MeanRate
+
+-   service     : "activeControllerCount"
+    obj         : "kafka.controller:name=ActiveControllerCount,type=KafkaController"
+    attr        :
+    -   Value
+
+-   service     : "requestQueueSize"
+    obj         : "kafka.network:name=RequestQueueSize,type=RequestChannel"
+    attr        :
+    -   Value
+
+-   service     : "underReplicatedPartitions"
+    obj         : "kafka.server:name=UnderReplicatedPartitions,type=ReplicaManager"
+    attr        :
+    -   Value
+
+-   service     : "logFlushRateAndTimeMs"
+    obj         : "kafka.log:type=LogFlushStats,name=LogFlushRateAndTimeMs"
+    attr        :
+    -   OneMinuteRate
+    -   MeanRate
+
+-   service     : "produceTotalTimeMs"
+    obj         : "kafka.network:name=TotalTimeMs,request=Produce,type=RequestMetrics"
+    attr        :
+    -   50thPercentile
+    -   99thPercentile
+
+-   service     : "fetchConsumerTotalTimeMs"
+    obj         : "kafka.network:name=TotalTimeMs,request=FetchConsumer,type=RequestMetrics"
+    attr        :
+    -   50thPercentile
+    -   99thPercentile
+
+-   service     : "fetchFollowerTotalTimeMs"
+    obj         : "kafka.network:name=TotalTimeMs,request=FetchFollower,type=RequestMetrics"
+    attr        :
+    -   50thPercentile
+    -   99thPercentile
+

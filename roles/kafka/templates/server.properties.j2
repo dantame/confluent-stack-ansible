@@ -35,20 +35,23 @@ broker.id=0
 #advertised.listeners=PLAINTEXT://your.host.name:9092
 
 # The number of threads handling network requests
-num.network.threads=3
+num.network.threads=8
 
 # The number of threads doing disk I/O
 num.io.threads=8
 
 # The send buffer (SO_SNDBUF) used by the socket server
-socket.send.buffer.bytes=102400
+socket.send.buffer.bytes=1048576
 
 # The receive buffer (SO_RCVBUF) used by the socket server
-socket.receive.buffer.bytes=102400
+socket.receive.buffer.bytes=1048576
 
 # The maximum size of a request that the socket server will accept (protection against OOM)
 socket.request.max.bytes=104857600
 
+queued.max.requests=16
+fetch.purgatory.purge.interval.requests=100
+producer.purgatory.purge.interval.requests=100
 
 ############################# Log Basics #############################
 
@@ -58,7 +61,9 @@ log.dirs=/tmp/kafka-logs
 # The default number of log partitions per topic. More partitions allow greater
 # parallelism for consumption, but this will also result in more files across
 # the brokers.
-num.partitions=1
+num.partitions=8
+message.max.bytes=1000000
+auto.create.topics.enable=true
 
 # The number of threads per data directory to be used for log recovery at startup and flushing at shutdown.
 # This value is recommended to be increased for installations with data dirs located in RAID array.
@@ -75,11 +80,14 @@ num.recovery.threads.per.data.dir=1
 # The settings below allow one to configure the flush policy to flush data after a period of time or
 # every N messages (or both). This can be done globally and overridden on a per-topic basis.
 
+
 # The number of messages to accept before forcing a flush of data to disk
-#log.flush.interval.messages=10000
+log.flush.interval.messages=20000
 
 # The maximum amount of time a message can sit in a log before we force a flush
-#log.flush.interval.ms=1000
+log.flush.interval.ms=10000
+
+log.flush.scheduler.interval.ms=2000
 
 ############################# Log Retention Policy #############################
 
@@ -102,6 +110,10 @@ log.segment.bytes=1073741824
 # to the retention policies
 log.retention.check.interval.ms=300000
 
+log.index.interval.bytes=4096
+log.index.size.max.bytes=10485760
+log.roll.hours=168
+
 ############################# Zookeeper #############################
 
 # Zookeeper connection string (see zookeeper docs for details).
@@ -113,8 +125,9 @@ zookeeper.connect=localhost:2181
 
 # Timeout in ms for connecting to zookeeper
 zookeeper.connection.timeout.ms=6000
+zookeeper.sync.time.ms=2000
 
-##################### Confluent Proactive Support ###################### 
+##################### Confluent Proactive Support ######################
 # If set to true, and confluent-support-metrics package is installed
 # then the feature to collect and report support metrics
 # ("Metrics") is enabled.  If set to false, the feature is disabled.
@@ -134,3 +147,17 @@ confluent.support.metrics.enable=true
 # that additional support metrics will be collected and reported.
 #
 confluent.support.customer.id=anonymous
+
+############################# Replication #############################
+
+num.replica.fetchers=4
+replica.fetch.max.bytes=1048576
+replica.fetch.wait.max.ms=500
+replica.high.watermark.checkpoint.interval.ms=5000
+replica.socket.timeout.ms=30000
+replica.socket.receive.buffer.bytes=65536
+replica.lag.time.max.ms=10000
+
+controller.socket.timeout.ms=30000
+controller.message.queue.size=10
+
