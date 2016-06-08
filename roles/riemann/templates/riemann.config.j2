@@ -13,7 +13,7 @@
 ; Expire old events from the index every 60 seconds.
 (periodically-expire 60)
 
-(def credentials {:account {{ ansible_env.SLACK_ACCOUNT|default('""') }}, :token {{ ansible_env.SLACK_TOKEN|default('""') }}})
+(def credentials {:account {{ ansible_env.SLACK_ACCOUNT|default('"changeme"') }}, :token {{ ansible_env.SLACK_TOKEN|default('"changeme"') }}})
 
 (def slacker (slack credentials {:username {{ ansible_env.SLACK_USERNAME|default('"Riemann"') }}
                                  :channel {{ ansible_env.SLACK_CHANNEL|default('"#test"') }}
@@ -43,6 +43,30 @@
       (where (and (service "logFlushRateAndTimeMs.OneMinuteRate")
                   (not (expired? event))
                   (<= metric 2000))
+        (with :state "ok" index)
+             (else (with :state "critical" index)))
+
+      (where (and (service "memory")
+                  (not (expired? event))
+                  (<= metric 0.9))
+        (with :state "ok" index)
+             (else (with :state "critical" index)))
+
+      (where (and (service "cpu")
+                  (not (expired? event))
+                  (<= metric 0.9))
+        (with :state "ok" index)
+             (else (with :state "critical" index)))
+
+      (where (and (service "disk")
+                  (not (expired? event))
+                  (<= metric 0.9))
+        (with :state "ok" index)
+             (else (with :state "critical" index)))
+
+      (where (and (service "fd sys")
+                  (not (expired? event))
+                  (<= metric 65000))
         (with :state "ok" index)
              (else (with :state "critical" index)))
 
