@@ -1,11 +1,11 @@
 riemann :
-    host     : localhost
+    host     : {{ groups['riemann'][0] }}
     port     : 5555
     interval : 5
 
 jmx :
     host : localhost
-    event_host : kafka-broker
+    event_host : {{ inventory_hostname }}
     port : 9999
 
 queries :

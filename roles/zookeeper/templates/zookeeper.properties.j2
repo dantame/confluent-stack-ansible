@@ -18,3 +18,6 @@ dataDir=/tmp/zookeeper
 clientPort=2181
 # disable the per-ip limit on the number of connections since this is a non-production config
 maxClientCnxns=0
+{% for z in groups['zookeeper'] %}
+server.{{ hostvars[z].node_id }}={{ hostvars[z].inventory_hostname }}:2888:3888
+{% endfor %}

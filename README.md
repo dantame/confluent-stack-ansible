@@ -4,7 +4,7 @@ Confluent Ansible Playbooks
 Development Dependencies:
 
 - Ansible 2.x `brew install ansible`
-- Vagrant
+- Vagrant 1.8.x
 - Vagrant Hostmanager Plugin `vagrant plugin install vagrant-hostmanager`
 - Ruby 2.x
 

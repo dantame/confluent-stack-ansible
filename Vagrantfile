@@ -20,6 +20,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |c|
 
   c.vm.provision :ansible do |ansible|
     ansible.playbook = "site.yml"
+    ansible.groups = {
+      "kafka" => ["default"],
+      "zookeeper" => ["default"],
+      "schema-registry" => ["default"],
+      "riemann" => ["default"]
+    }
+
+    ansible.host_vars = {
+      "default" => {
+        "node_id" => 1
+      }
+    }
   end
 
   c.vm.provider "virtualbox" do |v|
